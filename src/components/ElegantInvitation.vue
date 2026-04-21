@@ -8,7 +8,10 @@
     <div class="elegant-card">
       <div class="elegant-body">
         <!-- Monogram / heading -->
-        <div class="elegant-monogram">{{ pageHeading }}</div>
+        <div class="eledant-monogram">
+          <img :src="ElegantHeader" />
+        </div>
+        <!-- <div class="elegant-monogram">{{ pageHeading }}</div> -->
 
         <!-- Welcome text used as subtitle -->
         <p class="elegant-pretitle">
@@ -38,13 +41,13 @@
         <div class="elegant-timeline">
           <div class="timeline-left">
             <div class="item">
-              <img :src="IconGlasses" alt="Glasses" />
-              <p>OKUPLJANJE<br /><span>17:00H</span></p>
+              <img :src="IconRing" alt="Glasses" />
+              <p>CEREMONIJA VJENČANJA<br /><span>17:45H</span></p>
             </div>
             <div class="item"></div>
             <div class="item">
               <img :src="IconPlate" alt="Dinner" />
-              <p>SVEČANA VEČERA<br /><span>OD 19H</span></p>
+              <p>SVEČANA VEČERA<br /><span>OD 20:00H</span></p>
             </div>
             <div class="item"></div>
           </div>
@@ -73,8 +76,8 @@
           <div class="timeline-right">
             <div class="item"></div>
             <div class="item">
-              <img :src="IconRing" alt="Rings" />
-              <p>CEREMONIJA VJENČANJA<br /><span>17:30H</span></p>
+              <img :src="IconGlasses" alt="Rings" />
+              <p>ČAŠICA DOBRODOŠLICE<br /><span>19:00H</span></p>
             </div>
             <div class="item"></div>
             <div class="item">
@@ -204,6 +207,7 @@ import IconGlasses from "../assets/images/icon-glasses.png";
 import IconRing from "../assets/images/icon-rings.png";
 import IconPlate from "../assets/images/icon-plate.png";
 import IconParty from "../assets/images/icon-party.png";
+import ElegantHeader from "../assets/images/elegant-invite-header.svg"
 
 const props = defineProps({ token: { type: String, required: true } });
 
@@ -286,7 +290,7 @@ async function handleAddGuest() {
 }
 
 .elegant-body {
-  padding: 48px 48px 40px;
+  padding: 30px;
   text-align: center;
   font-family: "CrimsonPro", Georgia, serif;
   display: flex;
