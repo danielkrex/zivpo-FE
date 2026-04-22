@@ -8,7 +8,7 @@
     <div class="elegant-card">
       <div class="elegant-body">
         <!-- Monogram / heading -->
-        <div class="eledant-monogram">
+        <div class="elegant-monogram">
           <img :src="ElegantHeader" />
         </div>
         <!-- <div class="elegant-monogram">{{ pageHeading }}</div> -->
@@ -272,10 +272,9 @@ async function handleAddGuest() {
 }
 
 .elegant-hero {
-  position: absolute;
+  position: fixed;
   inset: 0;
   z-index: 0;
-  height: 100vh;
 }
 
 .elegant-card {
