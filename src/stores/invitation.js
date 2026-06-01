@@ -111,5 +111,10 @@ export function useAdminApi() {
     return data
   }
 
-  return { getProjects, getInvitations, uploadCsv, sendInvitations, deleteInvitation, resendInvitation, addInvitation, getProjectSettings, updateProjectSettings }
+  async function toggleWhatsapp(projectId, id) {
+    const { data } = await api.patch(`/admin/projects/${projectId}/invitations/${id}/whatsapp`, {}, { headers: headers() })
+    return data
+  }
+
+  return { getProjects, getInvitations, uploadCsv, sendInvitations, deleteInvitation, resendInvitation, addInvitation, getProjectSettings, updateProjectSettings, toggleWhatsapp }
 }

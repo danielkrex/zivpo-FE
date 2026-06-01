@@ -103,6 +103,7 @@
                 <th>Email</th>
                 <th>Gosti</th>
                 <th>Email poslan</th>
+                <th>WA poslan</th>
                 <th>Link</th>
                 <th></th>
               </tr>
@@ -128,6 +129,14 @@
                       {{ group.emailSent ? '✓ Da' : '– Ne' }}
                     </span>
                   </td>
+                  <td>
+                    <button
+                      class="btn-icon"
+                      :class="group.whatsappSent ? 'text-success' : 'text-muted'"
+                      :title="group.whatsappSent ? 'Označi kao neposlano' : 'Označi kao poslano'"
+                      @click="toggleWhatsapp(group)"
+                    >{{ group.whatsappSent ? '✓ Da' : '– Ne' }}</button>
+                  </td>
                   <td class="link-cell">
                     <div class="link-actions">
                       <button class="btn-icon" title="Kopiraj link" @click="copyLink(group.token)">
@@ -138,6 +147,7 @@
                         target="_blank"
                         class="btn-icon btn-icon--wa"
                         title="Pošalji WhatsAppom"
+                        @click="markWhatsappSent(group)"
                       >WA</a>
                     </div>
                   </td>
@@ -372,6 +382,20 @@ const sendingAll = ref(false)
 const sendResult = ref(null)
 const copiedToken = ref(null)
 const sendingId = ref(null)
+
+async function toggleWhatsapp(group) {
+  const result = await adminApi.toggleWhatsapp(projectId, group.id)
+  group.whatsappSent = result.whatsappSent
+  group.whatsappSentAt = result.whatsappSentAt
+}
+
+async function markWhatsappSent(group) {
+  if (!group.whatsappSent) {
+    const result = await adminApi.toggleWhatsapp(projectId, group.id)
+    group.whatsappSent = result.whatsappSent
+    group.whatsappSentAt = result.whatsappSentAt
+  }
+}
 
 async function resend(id) {
   sendingId.value = id
