@@ -138,7 +138,7 @@
         <div class="elegant-divider"></div>
 
         <!-- Add guest -->
-        <div class="elegant-add-section">
+        <div v-if="canAddCompanion || canAddChild" class="elegant-add-section">
           <h3 class="elegant-section-title">
             Dodavanje gostiju
           </h3>
@@ -233,7 +233,16 @@ const project = computed(() => store.group.project);
 const companions = computed(() =>
   store.group.guests.filter((g) => !g.isPrimary),
 );
-const canAddCompanion = computed(() => store.group.guests.length < 2);
+const canAddCompanion = computed(() => {
+  const guests = store.group.guests;
+  return guests.length < 3 && !guests.some((g) => g.isChild);
+});
+const canAddChild = computed(() => {
+  const guests = store.group.guests;
+  const hasManualChildren = guests.some((g) => g.isChild && !g.addedByGuest);
+  const addedChildren = guests.filter((g) => g.isChild && g.addedByGuest).length;
+  return !hasManualChildren && addedChildren < 2;
+});
 const pageHeading = computed(() => project.value.pageHeading || "Pozivnica");
 
 async function handleRsvp(guestId, status) {

@@ -82,7 +82,7 @@
         <div class="divider"></div>
 
         <!-- Add guest -->
-        <div class="add-guest-section">
+        <div v-if="canAddCompanion || canAddChild" class="add-guest-section">
           <h3>{{ canAddCompanion ? 'Pratnja i djeca' : 'Djeca' }}</h3>
           <p class="rsvp-subtitle">
             {{ canAddCompanion
@@ -137,7 +137,16 @@ const rsvpOptions = [
 const project        = computed(() => store.group.project)
 const primaryGuest   = computed(() => store.group.guests.find(g => g.isPrimary))
 const companions     = computed(() => store.group.guests.filter(g => !g.isPrimary))
-const canAddCompanion = computed(() => store.group.guests.length < 2)
+const canAddCompanion = computed(() => {
+  const guests = store.group.guests
+  return guests.length < 3 && !guests.some(g => g.isChild)
+})
+const canAddChild = computed(() => {
+  const guests = store.group.guests
+  const hasManualChildren = guests.some(g => g.isChild && !g.addedByGuest)
+  const addedChildren = guests.filter(g => g.isChild && g.addedByGuest).length
+  return !hasManualChildren && addedChildren < 2
+})
 const pageHeading    = computed(() => project.value.pageHeading || 'Pozivnica')
 
 const pageThemeStyle = computed(() => {
