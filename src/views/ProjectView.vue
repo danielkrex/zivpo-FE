@@ -474,9 +474,31 @@ function copyLink(token) {
 }
 
 function whatsappLink(group) {
-  const names = group.guests.map(g => g.name).join(' i ')
   const url = inviteUrl(group.token)
-  const msg = `Dragi/a ${names}, evo Vaše pozivnice: ${url}`
+  const coverUrl = `${window.location.origin}/sara-daniel-wp-cover.png`
+
+  const primary = group.guests.find(g => g.isPrimary) || group.guests[0]
+  const originalGuests = group.guests.filter(g => !g.addedByGuest)
+  const isFamily = originalGuests.length > 1
+
+  let greeting
+  if (isFamily) {
+    const parts = primary.name.trim().split(/\s+/)
+    const surname = parts.length > 1 ? parts[parts.length - 1] : parts[0]
+    greeting = `Pozivamo vas obitelji ${surname}`
+  } else {
+    const firstName = primary.name.trim().split(/\s+/)[0]
+    greeting = `Draga/i ${firstName}`
+  }
+
+  const variants = [
+    `${greeting},\n\ns radošću vas pozivamo na proslavu našeg vjenčanja! 💍\n\nVaša pozivnica čeka vas ovdje:\n${url}\n\n${coverUrl}`,
+    `${greeting},\n\nčast nam je pozvati vas da proslavite s nama ovaj poseban dan! 🥂\n\nVaša osobna pozivnica:\n${url}\n\n${coverUrl}`,
+    `${greeting},\n\nbit ćemo presretni imati vas uz nas na našem velikom danu! 💐\n\nKliknite na svoju pozivnicu:\n${url}\n\n${coverUrl}`,
+    `${greeting},\n\nnaše vjenčanje ne bi bilo potpuno bez vas! 🌸\n\nOvdje možete pronaći svoju pozivnicu:\n${url}\n\n${coverUrl}`,
+  ]
+
+  const msg = variants[Math.floor(Math.random() * variants.length)]
   return `https://wa.me/?text=${encodeURIComponent(msg)}`
 }
 
